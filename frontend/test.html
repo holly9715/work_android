@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .page {
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.content {
+  margin-left: 200px;
+  padding: 20px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+}
+    </style>
+</head>
+<body>
+    <div class="page">
+        <nav class="sidebar">
+          <ul>
+            <li><a href="#section1" class="active">Section 1</a></li>
+            <li><a href="#section2">Section 2</a></li>
+            <li><a href="#section3">Section 3</a></li>
+          </ul>
+        </nav>
+        <main class="content">
+          <section id="section1">Content of Section 1...</section>
+          <section id="section2">Content of Section 2...</section>
+          <section id="section3">Content of Section 3...</section>
+          <section id="section4">Content of Section 1...</section>
+          <section id="section5">Content of Section 2...</section>
+          <section id="section6">Content of Section 3...</section>
+        </main>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.sidebar a');
+
+  function getActiveSection() {
+    let activeSection = sections[0];
+
+    for (const section of sections) {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 100) { // 100px 偏移量，可根据需要调整
+        activeSection = section;
+      } else {
+        break;
+      }
+    }
+
+    return activeSection;
+  }
+
+  function updateActiveLink() {
+    const activeSection = getActiveSection();
+    const id = activeSection.id;
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + id) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  // 监听滚动事件
+  window.addEventListener('scroll', updateActiveLink);
+  // 初始化
+  updateActiveLink();
+});
+      </script>
+</body>
+</html>
